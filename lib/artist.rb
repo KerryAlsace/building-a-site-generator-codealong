@@ -1,6 +1,8 @@
 class Artist
   extend Concerns::Findable
-  attr_accessor :name, :songs
+  attr_accessor :name
+  attr_writer :songs
+  
   @@all = []
 
   def initialize(name)
@@ -23,6 +25,14 @@ class Artist
   def add_song(song)
     song.artist = self unless song.artist == self
     @songs << song unless @songs.include?(song)
+  end
+
+  def songs
+    begin
+      @songs.dup.freeze
+    rescue RuntimeError
+      puts "Use the #add_song method to add a song to an artist's collection"
+    end
   end
 
   def genres

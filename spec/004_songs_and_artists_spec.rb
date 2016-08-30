@@ -8,12 +8,11 @@ describe "Songs and Artists" do
       expect(artist.songs).to eq([])
     end
 
-    it 'can push a song into the songs collection' do
+    it 'cannot push a song into the songs collection' do
       artist = Artist.new("Neutral Milk Hotel")
       song = Song.new("In an Aeroplane Over the Sea")
 
-      artist.songs << song
-      expect(artist.songs).to include(song)
+      expect{artist.songs << song}.to raise_error
     end
   end
 
