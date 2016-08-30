@@ -4,23 +4,32 @@ class SiteGenerator
   def initialize(path)
     @path = path
     FileUtils.mkdir_p path
+    FileUtils.mkdir_p "#{path}/artists"
   end
 
   def generate_index
-    # HEREDOC
-    html = <<-HTML
-      <h1>Welcome to the Ruby Music Site</h1>
-      <ul>
-        <li><a href="artists/index.html">Artists - #{Artist.all.size}</a></li>
-        <li><a href="genres/index.html">Genres - #{Genre.all.size}</a></li>
-        <li><a href="songs/index.html">Songs - #{Song.all.size}</a></li>
-      </ul>
-    HTML
+    # First load the template string
+    template_string = File.read("./lib/views/index.html.erb")
+    # Instantiate the ERB template instance
+    template = ERB.new(template_string)
+    html = template.result
+
     File.write("#{path}/index.html", html)
+  end
+
+  def generate_artist_index
+    # First load the template string
+    template_string = File.read("./lib/views/artists/index.html.erb")
+    # Instantiate the ERB template instance
+    template = ERB.new(template_string)
+    html = template.result
+
+    File.write("#{path}//artists/index.html", html)
   end
 
   def call
     generate_index
+    generate_artist_index
   end
 
 end
