@@ -5,31 +5,25 @@ class SiteGenerator
     @path = path
     FileUtils.mkdir_p path
     FileUtils.mkdir_p "#{path}/artists"
+    FileUtils.mkdir_p "#{path}/genres"
+    FileUtils.mkdir_p "#{path}/songs"
   end
 
-  def generate_index
+  def generate_index(template_path)
     # First load the template string
-    template_string = File.read("./lib/views/index.html.erb")
+    template_string = File.read("./lib/views/#{template_path}.erb")
     # Instantiate the ERB template instance
     template = ERB.new(template_string)
     html = template.result
 
-    File.write("#{path}/index.html", html)
-  end
-
-  def generate_artist_index
-    # First load the template string
-    template_string = File.read("./lib/views/artists/index.html.erb")
-    # Instantiate the ERB template instance
-    template = ERB.new(template_string)
-    html = template.result
-
-    File.write("#{path}//artists/index.html", html)
+    File.write("#{path}/#{template_path}", html)
   end
 
   def call
-    generate_index
-    generate_artist_index
+    generate_index("index.html")
+    generate_index("artists/index.html")
+    generate_index("genres/index.html")
+    generate_index("songs/index.html")
   end
 
 end
