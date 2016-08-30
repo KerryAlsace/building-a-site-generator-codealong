@@ -20,6 +20,7 @@ class SiteGenerator
   end
 
   def generate_artist_show
+    binding.pry
     template_string = File.read("./lib/views/artists/show.html.erb")
     template = ERB.new(template_string)
 
